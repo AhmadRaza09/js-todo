@@ -1,0 +1,250 @@
+/* body {
+  background-color: red;
+} */
+
+:root {
+  font-size: 10px;
+}
+
+body {
+  font-size: 1rem;
+  font-family: sans-serif;
+  margin-bottom: 0;
+  overflow: hidden;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+* + * {
+  margin-bottom: 1.6rem;
+}
+
+.all_task::-webkit-scrollbar {
+  width: 6px; /* width of the entire scrollbar */
+}
+.all_task::-webkit-scrollbar-track {
+  background: rgb(228, 215, 215); /* color of the tracking area */
+}
+.all_task::-webkit-scrollbar-thumb {
+  background-color: #db4c3f; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 3px solid db4c3f; /* creates padding around scroll thumb */
+}
+
+.all_task {
+  height: 86.59vh;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 0;
+  overflow: auto;
+  /* width: 80vw;
+  margin: auto; */
+}
+
+.left_side {
+  flex-grow: 1.2;
+  background-color: #ececec;
+  text-align: center;
+  padding-top: 2rem;
+}
+
+.right_side {
+  flex-grow: 8.8;
+  /* background-color: red; */
+  /* display: flex;
+  justify-content: center; */
+}
+
+.temp {
+  background-color: #db4c3f;
+  padding: 0.8rem;
+  text-align: center;
+  font-size: 2.2rem;
+  color: rgb(255, 255, 255);
+  font-weight: 400;
+  border-radius: 5px;
+  margin-bottom: 0;
+}
+
+h1,
+h6 {
+  font-weight: normal;
+}
+
+/* .footer {
+  margin-bottom: 0px;
+} */
+
+.task_open {
+  /* background-color: red; */
+  margin-top: 2rem;
+  width: 108ch;
+  margin: auto;
+
+  color: rgb(73, 73, 73);
+  /* text-align: center; */
+}
+
+.task_open_name {
+  font-size: 2.2rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.task_open_description {
+  /* background-color: red; */
+
+  font-size: 1.6rem;
+  text-align: justify;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+.description {
+  margin-bottom: 0.6rem;
+  font-weight: 400;
+  font-size: 1.7rem;
+  background-color: #db4c3f;
+  color: rgb(255, 255, 255);
+  padding: 4px 7px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.add {
+  background-color: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  /* background-color: yellow; */
+  font-size: 1.6rem;
+  color: rgb(65, 47, 47);
+  font-weight: 500;
+
+  background-image: linear-gradient(to top left, #9be15d, #78d1afbd);
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-bottom: 1.6rem;
+}
+
+.add_svg {
+  width: 15px;
+  height: 15px;
+  color: rgb(65, 47, 47);
+  transform: translate(0, 15%);
+  font-weight: 500;
+}
+
+.task_list {
+  /* background-color: rebeccapurple; */
+  overflow: auto;
+  /* background-color: rebeccapurple; */
+  text-align: initial;
+  margin: auto;
+}
+
+.task_list_task {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: rgb(73, 73, 73);
+  background-color: white;
+  width: 100px;
+  margin: auto;
+  padding: 4px 6px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.task_list_task:last-child {
+  margin-bottom: 0;
+}
+
+.overlay {
+  /* overflow: hidden; */
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  /* opacity: 0; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form {
+  color: rgb(73, 73, 73);
+  padding: 2rem 3rem;
+  background-color: rgb(244, 244, 244);
+  width: 50vw;
+  height: 50vh;
+  border-radius: 10px;
+  /* position: relative; */
+  z-index: 10;
+}
+
+.form_data {
+  /* background-color: red; */
+  /* width: fit-content; */
+  margin: auto;
+  text-align: center;
+}
+
+.close {
+  color: black;
+  width: 30px;
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  font-weight: normal;
+}
+
+.form_input > label {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 1.6rem;
+  width: 10rem;
+  text-align: right;
+  margin-right: 1rem;
+  /* background-color: rebeccapurple; */
+}
+
+input {
+  width: 70%;
+  height: 30px;
+}
+
+input[type="submit"] {
+  border: none;
+  background-image: linear-gradient(to top left, #9be15d, #78d1afbd);
+  width: fit-content;
+  padding: 4px 10px;
+  /* color: white; */
+}
+
+.form_input {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+textarea {
+  width: 70%;
+  height: 100px;
+  resize: none;
+}
