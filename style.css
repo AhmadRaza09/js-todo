@@ -51,6 +51,7 @@ body {
   background-color: #ececec;
   text-align: center;
   padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .right_side {
@@ -96,7 +97,8 @@ h6 {
   margin-bottom: 1rem;
 }
 
-.task_open_description {
+.task_open_description,
+.task_open_des {
   /* background-color: red; */
 
   font-size: 1.6rem;
@@ -153,16 +155,21 @@ h6 {
   font-weight: 500;
   color: rgb(73, 73, 73);
   background-color: white;
-  width: 100px;
+  width: clamp(200px, 150px, 100px);
   margin: auto;
   padding: 4px 6px;
   margin-bottom: 1rem;
   border-radius: 10px;
   cursor: pointer;
+  text-align: center;
 }
 
 .task_list_task:last-child {
   margin-bottom: 0;
+}
+
+.task_name {
+  color: white;
 }
 
 .overlay {
@@ -170,7 +177,7 @@ h6 {
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
-  /* opacity: 0; */
+  /* opacity: 100;  */
   position: absolute;
   top: 0;
   left: 0;

@@ -36,7 +36,7 @@
           </button>
         </p>
         <div id="task" class="task_list">
-          <div class="task_list_task">
+          <!-- <div class="task_list_task">
             <p>
               <span class="task_name">task Name ✅</span>
             </p>
@@ -45,18 +45,18 @@
             <p>
               <span class="task_name">task Name </span>
             </p>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="right_side">
         <div class="task_open">
           <h1 class="task_open_name">
             <span class="description">Name:</span> <br />
-            Task Name
+            <div class="task_open_n">Task Name</div>
           </h1>
           <p class="task_open_description">
             <span class="description">Description:</span> <br />
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis
+           <div class="task_open_des"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis
             nihil vitae beatae, exercitationem officia tenetur reprehenderit
             tempore ratione expedita explicabo, numquam qui dicta sapiente
             distinctio ipsa nam eius nisi neque porro excepturi consectetur! Ex
@@ -113,7 +113,7 @@
             nesciunt in animi perspiciatis doloribus possimus, aliquid alias
             assumenda corporis laudantium nulla tempore voluptas ipsam, adipisci
             fugit? Dolor illo magnam similique inventore libero, omnis
-            voluptatem ipsum.
+            voluptatem ipsum.</div>
           </p>
         </div>
       </div>
@@ -139,13 +139,17 @@
           </div>
           <div class="form_input">
             <label for="des">Description:</label>
-            <textarea id="des" class="input_task_des">fadsjfk</textarea>
+            <textarea
+              id="des"
+              class="input_task_des"
+              placeholder="Enter description here"
+            ></textarea>
           </div>
           <div class="form_input">
             <label for="color">Color:</label>
             <input type="color" id="color" class="input_task_color" />
           </div>
-          <input type="submit" value="Add Task" />
+          <input class="input_task_add" type="submit" value="Add Task" />
         </form>
       </div>
       <div class="close">
