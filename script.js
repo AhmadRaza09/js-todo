@@ -11,7 +11,9 @@ const toggleModal = function () {
 const showtask = function (allTask) {
   //   console.log(allTask);
   taksList.innerHTML = "";
-  if (allTask) {
+  if (allTask.length > 0) {
+    // console.log("yes");
+    taskOpen.classList.remove("hidden");
     allTask.forEach((task, i) => {
       const taskEl = `<div class="task_list_task" id=${i} style="background-color:${
         task.taskColor
@@ -39,7 +41,15 @@ const showtask = function (allTask) {
           //update task list content
           taskOpenName.textContent = taskDetail.taskName;
           taskOpendes.textContent = taskDetail.taskDescription;
+          taskCompleted.textContent = taskDetail.isCompleted
+            ? "Un-Completed"
+            : "Completed";
+
           //   console.log(taskDetail);
+
+          //set the id to remove and completed button
+          taskCompleted.setAttribute("id", id);
+          taskRemove.setAttribute("id", id);
         });
 
       //always show first to do item content
@@ -50,7 +60,16 @@ const showtask = function (allTask) {
       const taskDetail = JSON.parse(storage.getItem("tasks"))[index];
       taskOpenName.textContent = taskDetail.taskName;
       taskOpendes.textContent = taskDetail.taskDescription;
+      taskCompleted.textContent = taskDetail.isCompleted
+        ? "Un-Completed"
+        : "Completed";
+
+      taskCompleted.setAttribute("id", index);
+      taskRemove.setAttribute("id", index);
     });
+  } else {
+    // console.log("no");
+    taskOpen.classList.add("hidden");
   }
 
   //   taksListTask = document.querySelector(".task_list_task");
@@ -84,10 +103,22 @@ const taskOpenName = document.querySelector(".task_open_n");
 const taskOpendes = document.querySelector(".task_open_des");
 // console.log(taskOpendes);
 
+const taskOpen = document.querySelector(".task_open");
+
+const taskCompleted = document.querySelector(".complete");
+// console.log(taskCompleted);
+
+const taskRemove = document.querySelector(".remove");
+// console.log(taskRemove);
+
 //evnet
 btnAdd.addEventListener("click", toggleModal);
 
-closeModal.addEventListener("click", toggleModal);
+closeModal.addEventListener("click", function () {
+  toggleModal();
+  inputName.value = textDescription.value = "";
+  inputColor.value = "#000000";
+});
 
 inputTaskAdd.addEventListener("click", function (e) {
   e.preventDefault();
@@ -125,17 +156,45 @@ inputTaskAdd.addEventListener("click", function (e) {
     toggleModal();
 
     //reset input
-    inputName.value = "";
-    textDescription.value = "";
+    inputName.value = textDescription.value = "";
     inputColor.value = "#000000";
   } else {
     alert("Please Enter Correct Input!");
   }
 });
 
+taskRemove.addEventListener("click", function () {
+  const index = this.getAttribute("id");
+  // console.log(index);
+  allTask.splice(index, 1);
+  // console.log(allTask);
+  //store new task object in local storage
+  storage.setItem("tasks", JSON.stringify(allTask));
+  // console.log(storage.getItem("tasks"));
+
+  //show all task list from local storage
+  showtask(JSON.parse(storage.getItem("tasks")));
+});
+
+taskCompleted.addEventListener("click", function () {
+  console.log("compelted");
+  const index = this.getAttribute("id");
+  // console.log(index);
+  // console.log(allTask);
+  allTask[index].isCompleted = !allTask[index].isCompleted;
+  //store new task object in local storage
+  storage.setItem("tasks", JSON.stringify(allTask));
+  // console.log(storage.getItem("tasks"));
+
+  //show all task list from local storage
+  showtask(JSON.parse(storage.getItem("tasks")));
+});
+
 //variables
 const storage = localStorage;
-const allTask = JSON.parse(storage.getItem("tasks"));
+const allTask = JSON.parse(storage.getItem("tasks"))
+  ? JSON.parse(storage.getItem("tasks"))
+  : [];
 
 // console.log(storage.length);
 // storage.setItem("tasks", JSON.stringify(allTask));

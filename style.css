@@ -50,8 +50,7 @@ body {
   flex-grow: 1.2;
   background-color: #ececec;
   text-align: center;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding: 2rem 0;
 }
 
 .right_side {
@@ -89,6 +88,7 @@ h6 {
 
   color: rgb(73, 73, 73);
   /* text-align: center; */
+  padding: 2rem 0;
 }
 
 .task_open_name {
@@ -118,7 +118,7 @@ h6 {
   display: inline-block;
 }
 
-.add {
+.btn {
   background-color: none;
   outline: none;
   border: none;
@@ -132,6 +132,15 @@ h6 {
   padding: 6px 10px;
   border-radius: 4px;
   margin-bottom: 1.6rem;
+}
+
+.btn_without_border {
+  background-image: none;
+  background-color: white;
+  border: 3px solid;
+  border-image: linear-gradient(to top left, #9be15d, #78d1afbd);
+  border-image-slice: 1;
+  border-radius: 5px;
 }
 
 .add_svg {
@@ -254,4 +263,10 @@ textarea {
   width: 70%;
   height: 100px;
   resize: none;
+}
+
+.task_open_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }

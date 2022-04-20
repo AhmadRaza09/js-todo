@@ -16,7 +16,7 @@
     <div class="all_task">
       <div class="left_side">
         <p>
-          <button class="add">
+          <button class="btn add">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -50,10 +50,20 @@
       </div>
       <div class="right_side">
         <div class="task_open">
-          <h1 class="task_open_name">
-            <span class="description">Name:</span> <br />
-            <div class="task_open_n">Task Name</div>
-          </h1>
+          <div class="task_open_title">
+            <h1 class="task_open_name">
+              <span class="description">Name:</span> <br />
+              <div class="task_open_n">Task Name</div>
+            </h1>
+            <p>
+              <button class="btn btn_without_border complete" id="">     
+                Completed
+              </button>
+              <button class="btn  btn_without_border remove" id="">     
+                Remove
+              </button>
+            </p>
+          </div>
           <p class="task_open_description">
             <span class="description">Description:</span> <br />
            <div class="task_open_des"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis
