@@ -1,4 +1,3 @@
-// console.log("ahmad");
 //function
 
 //open and close modal
@@ -7,14 +6,44 @@ const toggleModal = function () {
   modal.classList.toggle("hidden");
 };
 
+const showTaskDetail = function (index) {
+  const taskDetail = JSON.parse(storage.getItem("tasks"))[index];
+  taskOpenName.textContent = taskDetail.taskName;
+  taskOpendes.textContent = taskDetail.taskDescription;
+  taskCompleted.textContent = taskDetail.isCompleted
+    ? "Un-Completed"
+    : "Completed";
+
+  taskCompleted.setAttribute("id", index);
+  taskRemove.setAttribute("id", index);
+};
+
+const resetFormInput = function () {
+  inputName.value = textDescription.value = "";
+  inputColor.value = "#000000";
+};
+
+const storeAndShowTask = function (allTask, index = 0) {
+  // store new task object in local storage
+  storage.setItem("tasks", JSON.stringify(allTask));
+  //show all task list from local storage
+  showtask(JSON.parse(storage.getItem("tasks")), index);
+};
+
 //show task list
 const showtask = function (allTask, id = 0) {
-  //   console.log(allTask);
   taksList.innerHTML = "";
+  let isremoveHiddenClass = false;
+
   if (allTask.length > 0) {
-    // console.log("yes");
-    taskOpen.classList.remove("hidden");
+    //remove hidden class from task Open element
+    if (!isremoveHiddenClass) {
+      taskOpen.classList.remove("hidden");
+    }
+
+    //show all task list
     allTask.forEach((task, i) => {
+      //make task
       const taskEl = `<div class="task_list_task" id=${i} style="background-color:${
         task.taskColor
       }">
@@ -25,7 +54,7 @@ const showtask = function (allTask, id = 0) {
           </p>
         </div>`;
 
-      //   console.log(taksList);
+      //add task to dom
       taksList.insertAdjacentHTML("afterbegin", taskEl);
 
       //add event to task list item
@@ -33,23 +62,9 @@ const showtask = function (allTask, id = 0) {
         .querySelector(".task_list_task")
         .addEventListener("click", function () {
           //  get task list id
-          const id = this.getAttribute("id");
+          const index = this.getAttribute("id");
 
-          //get task list from local storage
-          const taskDetail = JSON.parse(storage.getItem("tasks"))[id];
-
-          //update task list content
-          taskOpenName.textContent = taskDetail.taskName;
-          taskOpendes.textContent = taskDetail.taskDescription;
-          taskCompleted.textContent = taskDetail.isCompleted
-            ? "Un-Completed"
-            : "Completed";
-
-          //   console.log(taskDetail);
-
-          //set the id to remove and completed button
-          taskCompleted.setAttribute("id", id);
-          taskRemove.setAttribute("id", id);
+          showTaskDetail(index);
         });
     });
     //always show first to do item content
@@ -58,80 +73,46 @@ const showtask = function (allTask, id = 0) {
     let index = JSON.parse(storage.getItem("tasks")).length - 1;
     if (id) {
       index = id;
-      // console.log("yes");
     }
 
-    const taskDetail = JSON.parse(storage.getItem("tasks"))[index];
-    taskOpenName.textContent = taskDetail.taskName;
-    taskOpendes.textContent = taskDetail.taskDescription;
-    taskCompleted.textContent = taskDetail.isCompleted
-      ? "Un-Completed"
-      : "Completed";
-
-    taskCompleted.setAttribute("id", index);
-    taskRemove.setAttribute("id", index);
+    showTaskDetail(index);
   } else {
-    // console.log("no");
+    //when there is no task
     taskOpen.classList.add("hidden");
   }
-
-  //   taksListTask = document.querySelector(".task_list_task");
-  //   console.log(taksListTask);
 };
 
 //dom element
 const overlay = document.querySelector(".overlay");
-// console.log(overlay);
 const modal = document.querySelector(".modal");
-// console.log(modal);
 const closeModal = document.querySelector(".close");
-// console.log(closeModal);
 const inputColor = document.querySelector(".input_task_color");
-// console.log(inputColor);
 const inputName = document.querySelector(".input_task_name");
-// console.log(inputName);
 const textDescription = document.querySelector(".input_task_des");
-// console.log(textDescription);
 const inputTaskAdd = document.querySelector(".input_task_add");
-// console.log(inputTaskAdd);
 const btnAdd = document.querySelector(".add");
-// console.log(btnAdd);
-
 const taksList = document.querySelector(".task_list");
-// console.log(taksList);
-
 const taskOpenName = document.querySelector(".task_open_n");
-// console.log(taskOpenName);
-
 const taskOpendes = document.querySelector(".task_open_des");
-// console.log(taskOpendes);
-
 const taskOpen = document.querySelector(".task_open");
-
 const taskCompleted = document.querySelector(".complete");
-// console.log(taskCompleted);
-
 const taskRemove = document.querySelector(".remove");
-// console.log(taskRemove);
 
 //evnet
 btnAdd.addEventListener("click", toggleModal);
 
 closeModal.addEventListener("click", function () {
   toggleModal();
-  inputName.value = textDescription.value = "";
-  inputColor.value = "#000000";
+  resetFormInput();
 });
 
 inputTaskAdd.addEventListener("click", function (e) {
   e.preventDefault();
-  //   console.log("yes clicked");
 
   //get all form element
   const taskName = inputName.value;
   const taskDescription = textDescription.value;
   const taskColor = inputColor.value;
-  //   console.log(Boolean(taskName), taskDescription, taskColor);
 
   if (taskName && taskDescription && taskColor) {
     //create new task object
@@ -142,25 +123,15 @@ inputTaskAdd.addEventListener("click", function (e) {
       isCompleted: false,
     };
 
-    //add newtask object in front of array
-    // console.log("before", allTask);
+    //add newtask object in the task array
     allTask.push(newTask);
-    // console.log("after", allTask);
 
-    //store new task object in local storage
-    storage.setItem("tasks", JSON.stringify(allTask));
-    // console.log(storage.getItem("tasks"));
+    storeAndShowTask(allTask);
 
-    //show all task list from local storage
-    showtask(JSON.parse(storage.getItem("tasks")));
-    // console.log(newTask);
-
-    //close model
     toggleModal();
 
     //reset input
-    inputName.value = textDescription.value = "";
-    inputColor.value = "#000000";
+    resetFormInput();
   } else {
     alert("Please Enter Correct Input!");
   }
@@ -168,29 +139,19 @@ inputTaskAdd.addEventListener("click", function (e) {
 
 taskRemove.addEventListener("click", function () {
   const index = this.getAttribute("id");
-  // console.log(index);
-  allTask.splice(index, 1);
-  // console.log(allTask);
-  //store new task object in local storage
-  storage.setItem("tasks", JSON.stringify(allTask));
-  // console.log(storage.getItem("tasks"));
 
-  //show all task list from local storage
-  showtask(JSON.parse(storage.getItem("tasks")));
+  allTask.splice(index, 1);
+
+  storeAndShowTask(allTask);
 });
 
 taskCompleted.addEventListener("click", function () {
-  // console.log("compelted");
   const index = this.getAttribute("id");
-  // console.log(index);
-  // console.log(allTask);
-  allTask[index].isCompleted = !allTask[index].isCompleted;
-  //store new task object in local storage
-  storage.setItem("tasks", JSON.stringify(allTask));
-  // console.log(storage.getItem("tasks"));
 
-  //show all task list from local storage
-  showtask(JSON.parse(storage.getItem("tasks")), index);
+  //if compeleted then un-completed and vice-versa
+  allTask[index].isCompleted = !allTask[index].isCompleted;
+
+  storeAndShowTask(allTask, index);
 });
 
 //variables
@@ -199,12 +160,4 @@ const allTask = JSON.parse(storage.getItem("tasks"))
   ? JSON.parse(storage.getItem("tasks"))
   : [];
 
-// console.log(storage.length);
-// storage.setItem("tasks", JSON.stringify(allTask));
-// console.log(storage);
-// console.log(JSON.parse(storage.getItem("tasks")));
-// storage.clear();
-
 showtask(JSON.parse(storage.getItem("tasks")));
-
-// console.log(storage.getItem("tasks"));
