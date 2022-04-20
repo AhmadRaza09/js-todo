@@ -8,7 +8,7 @@ const toggleModal = function () {
 };
 
 //show task list
-const showtask = function (allTask) {
+const showtask = function (allTask, id = 0) {
   //   console.log(allTask);
   taksList.innerHTML = "";
   if (allTask.length > 0) {
@@ -51,22 +51,25 @@ const showtask = function (allTask) {
           taskCompleted.setAttribute("id", id);
           taskRemove.setAttribute("id", id);
         });
-
-      //always show first to do item content
-
-      //get first to do item index that shown in UI
-      const index = JSON.parse(storage.getItem("tasks")).length - 1;
-
-      const taskDetail = JSON.parse(storage.getItem("tasks"))[index];
-      taskOpenName.textContent = taskDetail.taskName;
-      taskOpendes.textContent = taskDetail.taskDescription;
-      taskCompleted.textContent = taskDetail.isCompleted
-        ? "Un-Completed"
-        : "Completed";
-
-      taskCompleted.setAttribute("id", index);
-      taskRemove.setAttribute("id", index);
     });
+    //always show first to do item content
+
+    //get first to do item index that shown in UI
+    let index = JSON.parse(storage.getItem("tasks")).length - 1;
+    if (id) {
+      index = id;
+      // console.log("yes");
+    }
+
+    const taskDetail = JSON.parse(storage.getItem("tasks"))[index];
+    taskOpenName.textContent = taskDetail.taskName;
+    taskOpendes.textContent = taskDetail.taskDescription;
+    taskCompleted.textContent = taskDetail.isCompleted
+      ? "Un-Completed"
+      : "Completed";
+
+    taskCompleted.setAttribute("id", index);
+    taskRemove.setAttribute("id", index);
   } else {
     // console.log("no");
     taskOpen.classList.add("hidden");
@@ -177,7 +180,7 @@ taskRemove.addEventListener("click", function () {
 });
 
 taskCompleted.addEventListener("click", function () {
-  console.log("compelted");
+  // console.log("compelted");
   const index = this.getAttribute("id");
   // console.log(index);
   // console.log(allTask);
@@ -187,7 +190,7 @@ taskCompleted.addEventListener("click", function () {
   // console.log(storage.getItem("tasks"));
 
   //show all task list from local storage
-  showtask(JSON.parse(storage.getItem("tasks")));
+  showtask(JSON.parse(storage.getItem("tasks")), index);
 });
 
 //variables
