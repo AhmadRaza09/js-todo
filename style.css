@@ -162,7 +162,7 @@ h6 {
 .task_list_task {
   font-size: 1.3rem;
   font-weight: 500;
-  color: rgb(73, 73, 73);
+  color: white;
   background-color: white;
   width: clamp(200px, 150px, 100px);
   margin: auto;
@@ -177,9 +177,9 @@ h6 {
   margin-bottom: 0;
 }
 
-.task_name {
+/* .task_name {
   color: white;
-}
+} */
 
 .overlay {
   /* overflow: hidden; */
@@ -269,4 +269,14 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+}
+
+.pd2 {
+  padding: 8px;
+  background-color: white !important;
+  color: rgb(73, 73, 73) !important;
+}
+
+.dragging {
+  cursor: move;
 }

@@ -26,8 +26,9 @@ const resetFormInput = function () {
 const storeAndShowTask = function (allTask, index = 0) {
   // store new task object in local storage
   storage.setItem("tasks", JSON.stringify(allTask));
+
   //show all task list from local storage
-  showtask(JSON.parse(storage.getItem("tasks")), index);
+  showtask(allTask, index);
 };
 
 //show task list
@@ -44,9 +45,9 @@ const showtask = function (allTask, id = 0) {
     //show all task list
     allTask.forEach((task, i) => {
       //make task
-      const taskEl = `<div class="task_list_task" id=${i} style="background-color:${
+      const taskEl = `<div class="task_list_task dragging" id=${i} style="background-color:${
         task.taskColor
-      }">
+      }" draggable="true">
           <p>
             <span class="task_name">${task.taskName} ${
         task.isCompleted ? "✅" : ""
@@ -58,15 +59,51 @@ const showtask = function (allTask, id = 0) {
       taksList.insertAdjacentHTML("afterbegin", taskEl);
 
       //add event to task list item
-      document
-        .querySelector(".task_list_task")
-        .addEventListener("click", function () {
-          //  get task list id
-          const index = this.getAttribute("id");
+      const taskListTask = document.querySelector(".task_list_task");
 
-          showTaskDetail(index);
-        });
+      taskListTask.addEventListener("click", function () {
+        //  get task list id
+        const index = this.getAttribute("id");
+
+        showTaskDetail(index);
+      });
+
+      taskListTask.addEventListener("dragstart", function () {
+        this.classList.add("pd2", "current");
+      });
+
+      taskListTask.addEventListener("dragend", function () {
+        const current = document.querySelector(".current");
+
+        let moveBefore;
+
+        if (afterElement == null) {
+          taksList.appendChild(current);
+          moveBefore = 0;
+        } else {
+          taksList.insertBefore(current, afterElement);
+          moveBefore = +afterElement.getAttribute("id");
+
+          //if moveBefore is equal to tasks array length then return tasks array length
+          moveBefore =
+            moveBefore === allTask.length - 1 ? allTask.length - 1 : moveBefore;
+        }
+
+        //change alltask array
+        const movingElement = +current.getAttribute("id");
+
+        const movingTask = allTask[movingElement];
+
+        allTask.splice(movingElement, 1);
+
+        allTask.splice(moveBefore, 0, movingTask);
+
+        storeAndShowTask(allTask, moveBefore);
+
+        this.classList.remove("pd2", "current");
+      });
     });
+
     //always show first to do item content
 
     //get first to do item index that shown in UI
@@ -154,10 +191,47 @@ taskCompleted.addEventListener("click", function () {
   storeAndShowTask(allTask, index);
 });
 
+taksList.addEventListener("dragover", function (e) {
+  e.preventDefault();
+
+  //select dragging element
+  const draggable = document.querySelector(".current");
+
+  afterElement = getDragAfterElement(taksList, e.clientY);
+});
+
+function getDragAfterElement(taksList, y) {
+  const draggableElements = [
+    ...taksList.querySelectorAll(".dragging:not(.current) "),
+  ];
+
+  return draggableElements.reduce(
+    (closest, child) => {
+      //get position of current element
+      const box = child.getBoundingClientRect();
+
+      //calculate offset between moving and current element
+      const offset = y - box.top - box.height / 2;
+
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    },
+    {
+      offset: Number.NEGATIVE_INFINITY,
+    }
+  ).element;
+}
+
 //variables
 const storage = localStorage;
 const allTask = JSON.parse(storage.getItem("tasks"))
   ? JSON.parse(storage.getItem("tasks"))
   : [];
 
-showtask(JSON.parse(storage.getItem("tasks")));
+//for draging element
+let afterElement;
+
+showtask(allTask);
